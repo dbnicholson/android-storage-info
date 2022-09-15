@@ -13,4 +13,28 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("RELEASE_KEYSTORE") ?
+                           System.getenv("RELEASE_KEYSTORE") :
+                           System.getProperty("user.home") + "/.android/release-key.jks")
+            keyAlias System.getenv("RELEASE_KEYALIAS") ?
+                System.getenv("RELEASE_KEYALIAS") :
+                "release"
+            storePassword System.getenv("RELEASE_KEYSTORE_PASSWORD")
+            keyPassword System.getenv("RELEASE_KEY_PASSWORD") ?
+                System.getenv("RELEASE_KEY_PASSWORD") :
+                System.getenv("RELEASE_KEYSTORE_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        debug {
+        }
+
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
