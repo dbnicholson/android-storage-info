@@ -41,18 +41,16 @@ public class StorageInfoActivity extends Activity {
 
         for (StorageVolume volume : manager.getStorageVolumes()) {
             Log.v(TAG, "Adding volume " + volume.toString());
-            final File directory = volume.getDirectory();
-            final String path = directory == null ? "" : directory.toString();
 
             final StringBuffer buf = new StringBuffer();
-            buf.append("\n" + volume.toString() + ":\n");
-            buf.append("  Description: " + volume.getDescription(this) + "\n");
-            buf.append("  Path: " + path + "\n");
-            buf.append("  State: " + volume.getState() + "\n");
-            buf.append("  UUID: " + volume.getUuid() + "\n");
-            buf.append("  Emulated: " + Boolean.toString(volume.isEmulated()) + "\n");
-            buf.append("  Primary: " + Boolean.toString(volume.isPrimary()) + "\n");
-            buf.append("  Removable: " + Boolean.toString(volume.isRemovable()) + "\n");
+            buf.append(String.format("%n%1$s%n", volume));
+            buf.append(String.format("  Description: %1$s%n", volume.getDescription(this)));
+            buf.append(String.format("  Path: %1$s%n", volume.getDirectory()));
+            buf.append(String.format("  State: %1$s%n", volume.getState()));
+            buf.append(String.format("  UUID: %1$s%n", volume.getUuid()));
+            buf.append(String.format("  Emulated: %1$b%n", volume.isEmulated()));
+            buf.append(String.format("  Primary: %1$b%n", volume.isPrimary()));
+            buf.append(String.format("  Removable: %1$b%n", volume.isRemovable()));
 
             view.append(buf);
         }
