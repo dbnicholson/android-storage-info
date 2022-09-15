@@ -1,4 +1,4 @@
-package com.example.storageinfo;
+package org.endlessos.storageinfo;
 
 import android.app.Application;
 

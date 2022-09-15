@@ -1,4 +1,4 @@
-package com.example.storageinfo;
+package org.endlessos.storageinfo;
 
 import java.io.File;
 import java.util.concurrent.Executors;

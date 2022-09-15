@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.storageinfo"
+        applicationId "org.endlessos.storageinfo"
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 1
