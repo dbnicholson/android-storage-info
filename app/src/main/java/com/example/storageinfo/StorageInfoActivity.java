@@ -1,6 +1,7 @@
 package com.example.storageinfo;
 
 import java.io.File;
+import java.util.concurrent.Executors;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +15,7 @@ public class StorageInfoActivity extends Activity {
     private static final String TAG = "StorageInfoActivity";
 
     private TextView view;
+    private StorageManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,10 @@ public class StorageInfoActivity extends Activity {
         setContentView(R.layout.activity_main);
         view = (TextView) findViewById(R.id.text_view_id);
         view.setTextIsSelectable(true);
+
+        manager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
+        manager.registerStorageVolumeCallback(Executors.newSingleThreadExecutor(),
+                                              new VolumeCallback());
     }
 
     @Override
@@ -33,7 +39,6 @@ public class StorageInfoActivity extends Activity {
         Log.i(TAG, "Updating volumes");
         view.setText("Storage volumes:\n");
 
-        StorageManager manager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
         for (StorageVolume volume : manager.getStorageVolumes()) {
             Log.v(TAG, "Adding volume " + volume.toString());
             final File directory = volume.getDirectory();
@@ -50,6 +55,13 @@ public class StorageInfoActivity extends Activity {
             buf.append("  Removable: " + Boolean.toString(volume.isRemovable()) + "\n");
 
             view.append(buf);
+        }
+    }
+
+    protected class VolumeCallback extends StorageManager.StorageVolumeCallback {
+        public void onStateChanged (StorageVolume volume) {
+            Log.i(TAG, "Volume " + volume.toString() + " state changed to " + volume.getState());
+            updateView();
         }
     }
 }
