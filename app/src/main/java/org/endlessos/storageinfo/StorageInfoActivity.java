@@ -59,7 +59,14 @@ public class StorageInfoActivity extends Activity {
     protected class VolumeCallback extends StorageManager.StorageVolumeCallback {
         public void onStateChanged (StorageVolume volume) {
             Log.i(TAG, "Volume " + volume.toString() + " state changed to " + volume.getState());
-            updateView();
+            runOnUiThread(new RunUpdateView());
+        }
+
+        private class RunUpdateView implements Runnable {
+            @Override
+            public void run() {
+                updateView();
+            }
         }
     }
 }
